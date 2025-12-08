@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import meeshologo from "../images/meeshoLogo.svg";
+import meeshologo from "../assets/Meesho_logo.png";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import LazyImage from "../components/LazyImage";
