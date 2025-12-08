@@ -67,7 +67,7 @@ function Header() {
               className="border-none bg-transparent m-0 p-0 relative"
             >
               {cart?.length > 0 && (
-                <div className="absolute -top-2 -right-[10px] w-[20px] h-[20px] rounded-full text-[#2874f0] font-bold text-[10px] bg-[rgb(255_231_251)]">
+                <div className="absolute -top-2 -right-[10px] w-[20px] h-[20px] rounded-full text-[#570d48] font-bold text-[10px] bg-[rgb(255_231_251)]">
                   {cart?.length}
                 </div>
               )}
@@ -76,7 +76,7 @@ function Header() {
                 fill="currentColor"
                 strokeWidth={"0"}
                 viewBox="0 0 576 512"
-                className="text-[#2874f0]"
+                className="text-[#570d48]"
                 height="20"
                 width="20"
                 xmlns="http://www.w3.org/2000/svg"

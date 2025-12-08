@@ -505,7 +505,7 @@ function Productpage({ data }) {
                   height="16"
                   src={bomb}
                 />
-                <span className="text-[#2874f0] font-semibold text-[13px] leading-[16px] ml-[5px] p-0">
+                <span className="text-[#570d48] font-semibold text-[13px] leading-[16px] ml-[5px] p-0">
                   {formatTime(time)?.hr}h : {formatTime(time)?.min}m :{" "}
                   {formatTime(time)?.sec}s
                 </span>
@@ -912,14 +912,14 @@ function Productpage({ data }) {
               <svg
                 width="20"
                 height="20"
-                fill="#2874f0"
+                fill="#570d48"
                 xmlns="http://www.w3.org/2000/svg"
                 iconsize="20"
                 className="w-[20px] h-[20px]"
               >
                 <path
                   d="M7.31 4.316a1.079 1.079 0 0 0 0 1.515l4.125 4.17-4.124 4.17a1.079 1.079 0 0 0 0 1.515 1.05 1.05 0 0 0 1.499 0l4.88-4.933a1.079 1.079 0 0 0 0-1.515L8.81 4.305a1.06 1.06 0 0 0-1.5.01Z"
-                  fill="#2874f0"
+                  fill="#570d48"
                 ></path>
               </svg>
             </button>
@@ -993,11 +993,11 @@ function Productpage({ data }) {
                       ></path>
                       <path
                         d="M10.193 20.478c.674 0 1.22-.598 1.22-1.335s-.546-1.334-1.22-1.334c-.674 0-1.22.597-1.22 1.334 0 .737.546 1.335 1.22 1.335ZM15.181 20.478c.674 0 1.22-.598 1.22-1.335s-.546-1.334-1.22-1.334c-.674 0-1.22.597-1.22 1.334 0 .737.546 1.335 1.22 1.335Z"
-                        fill="#2874f0"
+                        fill="#570d48"
                       ></path>
                       <path
                         d="M1.126 3.28 4.152 4.7 6.68 16.784c.127.608.615 1.035 1.18 1.035h9.615"
-                        stroke="#2874f0"
+                        stroke="#570d48"
                         stroke-width="1.5"
                         stroke-linecap="round"
                         stroke-linejoin="round"
@@ -1234,7 +1234,7 @@ function Productpage({ data }) {
                       setviewdetailwspopup(true);
                     }}
                     type="button"
-                    className="m-0 p-0 w-fit bg-transparent border-none text-[15px] text-[#2874f0] font-medium"
+                    className="m-0 p-0 w-fit bg-transparent border-none text-[15px] text-[#570d48] font-medium"
                   >
                     View Details
                   </button>
@@ -1245,7 +1245,7 @@ function Productpage({ data }) {
                       setaddtocartyn(true);
                     }}
                     className={`w-[48%] h-[125px] relative border-[1px] ${
-                      addtocartyn ? "border-[#2874f0]" : "border-[#eaeaf2]"
+                      addtocartyn ? "border-[#570d48]" : "border-[#eaeaf2]"
                     } rounded-lg`}
                   >
                     {addtocartyn && (
@@ -1276,7 +1276,7 @@ function Productpage({ data }) {
                     }}
                     className={`w-[48%] h-[125px] relative border-[1px] ${
                       addtocartyn === false
-                        ? "border-[#2874f0]"
+                        ? "border-[#570d48]"
                         : "border-[#eaeaf2]"
                     } rounded-lg`}
                   >
@@ -1459,7 +1459,7 @@ function Productpage({ data }) {
                       setviewdetailwspopup(true);
                     }}
                     type="button"
-                    className="m-0 p-0 w-fit bg-transparent border-none text-[15px] text-[#2874f0] font-medium"
+                    className="m-0 p-0 w-fit bg-transparent border-none text-[15px] text-[#570d48] font-medium"
                   >
                     View Details
                   </button>
@@ -1470,7 +1470,7 @@ function Productpage({ data }) {
                       setbuynowyn(true);
                     }}
                     className={`w-[48%] h-[125px] relative border-[1px] ${
-                      buynowyn ? "border-[#2874f0]" : "border-[#eaeaf2]"
+                      buynowyn ? "border-[#570d48]" : "border-[#eaeaf2]"
                     } rounded-lg`}
                   >
                     {buynowyn && (
@@ -1501,7 +1501,7 @@ function Productpage({ data }) {
                     }}
                     className={`w-[48%] h-[125px] relative border-[1px] ${
                       buynowyn === false
-                        ? "border-[#2874f0]"
+                        ? "border-[#570d48]"
                         : "border-[#eaeaf2]"
                     } rounded-lg`}
                   >
@@ -1663,7 +1663,7 @@ function Productpage({ data }) {
                         setvideodata(false);
                       }}
                       className={`rounded-full py-2 px-3 ${
-                        videodata === false ? "bg-[#2874f0]" : "bg-gray-700"
+                        videodata === false ? "bg-[#570d48]" : "bg-gray-700"
                       } m-0 border-none outline-none text-[15px] font-bold text-white`}
                       type="button"
                     >
@@ -1674,7 +1674,7 @@ function Productpage({ data }) {
                         setvideodata(true);
                       }}
                       className={`rounded-full py-2 px-3 ${
-                        videodata ? "bg-[#2874f0]" : "bg-gray-700"
+                        videodata ? "bg-[#570d48]" : "bg-gray-700"
                       } m-0 border-none outline-none text-[15px] font-bold text-white`}
                       type="button"
                     >

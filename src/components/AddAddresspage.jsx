@@ -129,13 +129,13 @@ function AddAddresspage() {
                   onClick={() => { getLocation() }}
                   type="button"
                   className={`m-0 h-[26px] w-fit
-                    border-[#2874f0] px-[12px] text-[rgb(159_32_137)] bg-transparent text-[15px] font-[500] rounded-[4px] border-[1px] flex justify-center gap-1 items-center`}
+                    border-[#570d48] px-[12px] text-[rgb(159_32_137)] bg-transparent text-[15px] font-[500] rounded-[4px] border-[1px] flex justify-center gap-1 items-center`}
                 >
                   <svg
                     width="15"
                     height="14"
                     viewBox="0 0 15 14"
-                    fill="#2874f0"
+                    fill="#570d48"
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
@@ -197,12 +197,12 @@ function AddAddresspage() {
                       value={values?.house}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      className="block rounded-t-lg pt-[22px] w-full text-sm text-gray-900 bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2874f0] peer focus:border-b-[2px]"
+                      className="block rounded-t-lg pt-[22px] w-full text-sm text-gray-900 bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#570d48] peer focus:border-b-[2px]"
                       placeholder=" "
                     />
                     <label
                       for="floating_filled"
-                      className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0]  peer-focus:text-[#2874f0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
+                      className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0]  peer-focus:text-[#570d48] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
                     >
                       House no./ Building Name
                     </label>
@@ -222,12 +222,12 @@ function AddAddresspage() {
                       value={values?.road}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      className="block rounded-t-lg pt-[22px] w-full text-sm text-gray-900 bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2874f0] peer focus:border-b-[2px]"
+                      className="block rounded-t-lg pt-[22px] w-full text-sm text-gray-900 bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#570d48] peer focus:border-b-[2px]"
                       placeholder=" "
                     />
                     <label
                       for="floating_filled1"
-                      className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0]  peer-focus:text-[#2874f0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
+                      className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0]  peer-focus:text-[#570d48] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
                     >
                       Road Name / Area / Colony
                     </label>
@@ -248,12 +248,12 @@ function AddAddresspage() {
                       value={values?.pincode}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      className="block rounded-t-lg pt-[22px] w-full text-sm text-gray-900 bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2874f0] peer focus:border-b-[2px]"
+                      className="block rounded-t-lg pt-[22px] w-full text-sm text-gray-900 bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#570d48] peer focus:border-b-[2px]"
                       placeholder=" "
                     />
                     <label
                       for="floating_filled2"
-                      className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0]  peer-focus:text-[#2874f0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
+                      className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0]  peer-focus:text-[#570d48] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
                     >
                       Pincode
                     </label>
@@ -274,12 +274,12 @@ function AddAddresspage() {
                         value={values?.city}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        className="block rounded-t-lg pt-[22px] w-full text-sm text-gray-900 bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2874f0] peer focus:border-b-[2px]"
+                        className="block rounded-t-lg pt-[22px] w-full text-sm text-gray-900 bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#570d48] peer focus:border-b-[2px]"
                         placeholder=" "
                       />
                       <label
                         for="floating_filled3"
-                        className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0]  peer-focus:text-[#2874f0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
+                        className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0]  peer-focus:text-[#570d48] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
                       >
                         City
                       </label>
@@ -299,12 +299,12 @@ function AddAddresspage() {
                         onBlur={handleBlur}
                         id="floating_filled7"
                         name="state"
-                        className="block rounded-t-lg pt-[22px] w-full text-sm text-gray-900 bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2874f0] peer focus:border-b-[2px]"
+                        className="block rounded-t-lg pt-[22px] w-full text-sm text-gray-900 bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#570d48] peer focus:border-b-[2px]"
                         placeholder=" "
                       />
                       <label
                         for="floating_filled7"
-                        className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0]  peer-focus:text-[#2874f0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
+                        className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0]  peer-focus:text-[#570d48] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
                       >
                         State
                       </label>
@@ -325,12 +325,12 @@ function AddAddresspage() {
                       value={values?.nearby}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      className="block rounded-t-lg pt-[22px] w-full text-sm text-gray-900 bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2874f0] peer focus:border-b-[2px]"
+                      className="block rounded-t-lg pt-[22px] w-full text-sm text-gray-900 bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#570d48] peer focus:border-b-[2px]"
                       placeholder=" "
                     />
                     <label
                       for="floating_filled4"
-                      className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0]  peer-focus:text-[#2874f0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
+                      className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0]  peer-focus:text-[#570d48] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
                     >
                       Nearby Famous Place/Shop/School,etc.
                     </label>
@@ -405,12 +405,12 @@ function AddAddresspage() {
                         value={values?.name}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        className="block rounded-t-lg pt-[22px] w-full text-sm text-gray-900 bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2874f0] peer focus:border-b-[2px]"
+                        className="block rounded-t-lg pt-[22px] w-full text-sm text-gray-900 bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#570d48] peer focus:border-b-[2px]"
                         placeholder=" "
                       />
                       <label
                         for="floating_filled5"
-                        className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0]  peer-focus:text-[#2874f0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
+                        className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0]  peer-focus:text-[#570d48] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
                       >
                         Name
                       </label>
@@ -432,12 +432,12 @@ function AddAddresspage() {
                         value={values?.contact}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        className="block rounded-t-lg pt-[22px] w-full text-sm text-gray-900 bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2874f0] peer focus:border-b-[2px]"
+                        className="block rounded-t-lg pt-[22px] w-full text-sm text-gray-900 bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#570d48] peer focus:border-b-[2px]"
                         placeholder=" "
                       />
                       <label
                         for="floating_filled6"
-                        className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0]  peer-focus:text-[#2874f0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
+                        className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0]  peer-focus:text-[#570d48] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
                       >
                         Contact Number
                       </label>
