@@ -3,7 +3,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import homepagebannergif from "../images/pngmeesho.jpg";
 import bomb from "../images/bomb.png";
-import thustedimg from "../images/thrustedimg62673a64c85253f85502.png";
+import thustedimg from "../images/thrustedimg.png";
 import { Autoplay } from "swiper/modules";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
