@@ -413,9 +413,7 @@ export default function PaymentPage() {
 
                 <div className="text-left">
 
-                  <p className="font-semibold text-black text-base">
-                    Scan QR Code
-                  </p>
+                  
 
                   <p className="text-sm text-gray-500">
                     Pay using any UPI app
