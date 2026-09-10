@@ -51,7 +51,7 @@ export default function PaymentPage() {
   // YOUR UPI DETAILS
   // ==============================
 
-  const upiId = "gaurangasodariya78628-2@okaxis";
+  const upiId = "krunallimbani200-2@okicic";
   const payeeName = "Gaurang Asodariya";
 
   // ==============================
