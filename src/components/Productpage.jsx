@@ -7,7 +7,7 @@ import shopicon from "../images/shopicon.webp";
 import codimage from "../images/cod_new.png";
 import lowpriceimage from "../images/lowest_price_new.png";
 import returnimage from "../images/return_new.png";
-import thustedimg from "../images/thrustedimg.png";
+import thustedimg from "../images/thrustedimg2.png";
 import heart from "../images/wishlist.svg";
 import { BaynowandaddtocartAction } from "../redux/actions/Baynowdata";
 import { useNavigate, useParams } from "react-router-dom";
@@ -97,13 +97,17 @@ function Productpage({ data }) {
         : apiData?.findIndex((item) => item.id === id) + 7
     )
     ?.filter((datafilterid) => datafilterid?.id !== id);
+  const handleSizeSelect = (size) => {
+    setSelecedSize(size);
+  };
+
   const buynowProductData = (buydata) => {
     const payload = {
       ...buydata,
       size: selecedSize,
       qty: 1,
       yesnoval: buynowyn,
-      free:false
+      free: false
     };
     dispatch(BaynowandaddtocartAction(payload));
     setbuynowpopup(false);
@@ -121,7 +125,7 @@ function Productpage({ data }) {
           sizeselect: selecedSize,
           qty: 1,
           yesnoval: addtocartyn,
-          free:false
+          free: false
         })
       );
       toast.success("Product Is Added to Cart.");
@@ -468,14 +472,28 @@ function Productpage({ data }) {
               <span className="text-[15px] font-[500] text-[rgb(53_53_67)]">
                 {filterdata[0]?.cancelprice && filterdata[0]?.price
                   ? Math.round(
-                      ((+filterdata[0]?.cancelprice - +filterdata[0]?.price) /
-                        +filterdata[0]?.cancelprice) *
-                        100
-                    )
+                    ((+filterdata[0]?.cancelprice - +filterdata[0]?.price) /
+                      +filterdata[0]?.cancelprice) *
+                    100
+                  )
                   : 0}
                 % Off
               </span>
             </div>
+            <div className="flex flex-wrap gap-1 mt-1">
+              {Array.isArray(filterdata[0]?.size) &&
+                filterdata[0].size.map((s, i) => (
+                  <div
+                    key={i}
+                    onClick={() => handleSizeSelect(s)}
+                    className={`cursor-pointer px-3 py-1 rounded border 
+          ${selecedSize === s ? "bg-black text-white" : "bg-white text-black"}`}
+                  >
+                    {s}
+                  </div>
+                ))}
+            </div>
+
             <div className="w-full mt-[10px]">
               <div className="flex items-center bg-green-100 text-green-600 rounded-full text-[15px] font-[500] w-fit px-2 py-[2px]">
                 ₹260 with 1 Special Offer
@@ -500,7 +518,7 @@ function Productpage({ data }) {
               <p className="text-[13px] text-black">Daily Deals</p>
               <div className="inline-flex items-center whitespace-nowrap font-nums bg-orange-200 rounded-md h-[20px] px-[8px] border border-orange-500">
                 <LazyImage
-                className={'w-[16px] h-[16px] object-contain'}
+                  className={'w-[16px] h-[16px] object-contain'}
                   width="16"
                   height="16"
                   src={bomb}
@@ -590,9 +608,8 @@ function Productpage({ data }) {
               Product Details
             </p>
             <div
-              className={`mt-4 ${
-                Readless ? "mb-4" : "mb-0"
-              } text-[13px] text-[rgb(97_97_115)] font-[500]`}
+              className={`mt-4 ${Readless ? "mb-4" : "mb-0"
+                } text-[13px] text-[rgb(97_97_115)] font-[500]`}
               dangerouslySetInnerHTML={{
                 __html: Readless
                   ? filterdata[0]?.desc
@@ -1105,11 +1122,11 @@ function Productpage({ data }) {
                       <span className="text-[12px] font-[500] text-[rgb(53_53_67)]">
                         {dataproduct?.cancelprice && dataproduct?.price
                           ? Math.round(
-                              ((+dataproduct?.cancelprice -
-                                +dataproduct?.price) /
-                                +dataproduct?.cancelprice) *
-                                100
-                            )
+                            ((+dataproduct?.cancelprice -
+                              +dataproduct?.price) /
+                              +dataproduct?.cancelprice) *
+                            100
+                          )
                           : 0}
                         % Off
                       </span>
@@ -1165,42 +1182,41 @@ function Productpage({ data }) {
           <div
             className={`fixed left-0 right-0 bottom-0 top-0 transition-all block bg-[#353543]/90 z-[999999999999999999]`}
           >
-        <div
-          className={`absolute bottom-0 right-0 left-0 ${
-            addtocartpopup ? "opacity-100 h-fit" : "opacity-0 h-0 hidden"
-          } w-full h-fit duration-1000 transition-all rounded-[8px_8px_0_0] bg-white cursor-default z-[999999999999999999]`}
-          ref={addtocartsidebar}
-        >
-          <div className="w-full h-fit">
-            <div className="p-[16px] flex justify-between items-center border-b-[1px] border-[#dddddd]">
-              <p className="text-[13px] font-medium uppercase text-[#353543]">
-                Add to Cart
-              </p>
-              <button
-                className="m-0 p-0 bg-transparent w-fit h-fit border-none outline-none"
-                type="button"
-                onClick={() => {
-                  setaddtocartpopup(false);
-                }}
-              >
-                <svg
-                  width="100%"
-                  height="100%"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  iconSize="20"
-                  class="w-[20px] h-[20px]"
-                >
-                  <path
-                    d="M14.3034 15.7767L10.0124 11.4858L5.70897 15.7892C5.24694 16.2512 4.58159 16.3419 4.11956 15.8799C3.65753 15.4178 3.76954 14.7738 4.23157 14.3117L8.53496 10.0083L4.22267 5.69605C3.76064 5.23402 3.65753 4.58108 4.11956 4.11905C4.58159 3.65702 5.22039 3.77427 5.68243 4.2363L9.99472 8.54859L14.3123 4.23106C14.7743 3.76902 15.4183 3.65702 15.8804 4.11905C16.3424 4.58108 16.2517 5.24643 15.7897 5.70846L11.4721 10.026L15.7631 14.317C16.2251 14.779 16.3424 15.4178 15.8804 15.8799C15.4183 16.3419 14.7654 16.2388 14.3034 15.7767Z"
-                    fill="#666666"
-                  ></path>
-                </svg>
-              </button>
-            </div>
-            <div className="w-full">
-              {/* {filterdata[0]?.size?.length > 0 && <div className="w-full pt-[20px] pb-[28px] px-[16px] border-[1px] border-b-[#dddddd]">
+            <div
+              className={`absolute bottom-0 right-0 left-0 ${addtocartpopup ? "opacity-100 h-fit" : "opacity-0 h-0 hidden"
+                } w-full h-fit duration-1000 transition-all rounded-[8px_8px_0_0] bg-white cursor-default z-[999999999999999999]`}
+              ref={addtocartsidebar}
+            >
+              <div className="w-full h-fit">
+                <div className="p-[16px] flex justify-between items-center border-b-[1px] border-[#dddddd]">
+                  <p className="text-[13px] font-medium uppercase text-[#353543]">
+                    Add to Cart
+                  </p>
+                  <button
+                    className="m-0 p-0 bg-transparent w-fit h-fit border-none outline-none"
+                    type="button"
+                    onClick={() => {
+                      setaddtocartpopup(false);
+                    }}
+                  >
+                    <svg
+                      width="100%"
+                      height="100%"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      iconSize="20"
+                      class="w-[20px] h-[20px]"
+                    >
+                      <path
+                        d="M14.3034 15.7767L10.0124 11.4858L5.70897 15.7892C5.24694 16.2512 4.58159 16.3419 4.11956 15.8799C3.65753 15.4178 3.76954 14.7738 4.23157 14.3117L8.53496 10.0083L4.22267 5.69605C3.76064 5.23402 3.65753 4.58108 4.11956 4.11905C4.58159 3.65702 5.22039 3.77427 5.68243 4.2363L9.99472 8.54859L14.3123 4.23106C14.7743 3.76902 15.4183 3.65702 15.8804 4.11905C16.3424 4.58108 16.2517 5.24643 15.7897 5.70846L11.4721 10.026L15.7631 14.317C16.2251 14.779 16.3424 15.4178 15.8804 15.8799C15.4183 16.3419 14.7654 16.2388 14.3034 15.7767Z"
+                        fill="#666666"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+                <div className="w-full">
+                  {/* {filterdata[0]?.size?.length > 0 && <div className="w-full pt-[20px] pb-[28px] px-[16px] border-[1px] border-b-[#dddddd]">
                 <h5 className="text-[17px] text-[rgb(53_53_67)] font-[700] mb-[16px]">
                   Select Size
                 </h5>
@@ -1224,208 +1240,205 @@ function Productpage({ data }) {
                   })}
                 </div>
               </div>} */}
-              <div className="w-full p-[16px] border-[1px] border-b-[#dddddd]">
-                <div className="flex justify-between items-center w-full">
-                  <p className="text-[15px] text-[#616173] font-medium">
-                    Do you want Easy Returns?
-                  </p>
-                  <button
-                    onClick={() => {
-                      setviewdetailwspopup(true);
-                    }}
-                    type="button"
-                    className="m-0 p-0 w-fit bg-transparent border-none text-[15px] text-[#570d48] font-medium"
-                  >
-                    View Details
-                  </button>
-                </div>
-                <div className="flex justify-between items-center w-full mt-[16px]">
-                  <div
-                    onClick={() => {
-                      setaddtocartyn(true);
-                    }}
-                    className={`w-[48%] h-[125px] relative border-[1px] ${
-                      addtocartyn ? "border-[#570d48]" : "border-[#eaeaf2]"
-                    } rounded-lg`}
-                  >
-                    {addtocartyn && (
-                      <div className="absolute top-[-8px] right-[-8px] w-fit h-fit">
-                        <LazyImage
-                          src={checkpurple}
-                          className="h-[21px] w-auto object-contain"
-                        />
-                      </div>
-                    )}
-                    <div className="w-full h-[48px] border-b-[1px] bg-[#f8f8ff] border-[#eaeaf2] p-[10px] flex  justify-start items-center rounded-t-lg gap-[5px]">
-                      <div className="bg-[#616173] text-[11px] text-white w-fit px-[5px] py-[2px] rounded-[5px]">
-                        Yes
-                      </div>
-                      <p className="text-[10px] text-[#616173] font-[600] leading-3">
-                        All issue easy returns allowed
+                  <div className="w-full p-[16px] border-[1px] border-b-[#dddddd]">
+                    <div className="flex justify-between items-center w-full">
+                      <p className="text-[15px] text-[#616173] font-medium">
+                        Do you want Easy Returns?
                       </p>
+                      <button
+                        onClick={() => {
+                          setviewdetailwspopup(true);
+                        }}
+                        type="button"
+                        className="m-0 p-0 w-fit bg-transparent border-none text-[15px] text-[#570d48] font-medium"
+                      >
+                        View Details
+                      </button>
                     </div>
-                    <div className="p-[10px]">
-                      <p className="text-[17px] text-black font-[600]">
-                        ₹{+filterdata[0]?.price + 20}
-                      </p>
+                    <div className="flex justify-between items-center w-full mt-[16px]">
+                      <div
+                        onClick={() => {
+                          setaddtocartyn(true);
+                        }}
+                        className={`w-[48%] h-[125px] relative border-[1px] ${addtocartyn ? "border-[#570d48]" : "border-[#eaeaf2]"
+                          } rounded-lg`}
+                      >
+                        {addtocartyn && (
+                          <div className="absolute top-[-8px] right-[-8px] w-fit h-fit">
+                            <LazyImage
+                              src={checkpurple}
+                              className="h-[21px] w-auto object-contain"
+                            />
+                          </div>
+                        )}
+                        <div className="w-full h-[48px] border-b-[1px] bg-[#f8f8ff] border-[#eaeaf2] p-[10px] flex  justify-start items-center rounded-t-lg gap-[5px]">
+                          <div className="bg-[#616173] text-[11px] text-white w-fit px-[5px] py-[2px] rounded-[5px]">
+                            Yes
+                          </div>
+                          <p className="text-[10px] text-[#616173] font-[600] leading-3">
+                            All issue easy returns allowed
+                          </p>
+                        </div>
+                        <div className="p-[10px]">
+                          <p className="text-[17px] text-black font-[600]">
+                            ₹{+filterdata[0]?.price + 20}
+                          </p>
+                        </div>
+                      </div>
+                      <div
+                        onClick={() => {
+                          setaddtocartyn(false);
+                        }}
+                        className={`w-[48%] h-[125px] relative border-[1px] ${addtocartyn === false
+                          ? "border-[#570d48]"
+                          : "border-[#eaeaf2]"
+                          } rounded-lg`}
+                      >
+                        {addtocartyn === false && (
+                          <div className="absolute top-[-8px] right-[-8px] w-fit h-fit">
+                            <LazyImage
+                              src={checkpurple}
+                              className="h-[21px] w-auto object-contain"
+                            />
+                          </div>
+                        )}
+                        <div className="w-full h-[48px] border-b-[1px] bg-[#f8f8ff] border-[#eaeaf2] p-[10px] flex  justify-start items-center rounded-t-lg gap-[5px]">
+                          <div className="bg-[#616173] text-[11px] text-white w-fit px-[5px] py-[2px] rounded-[5px]">
+                            No
+                          </div>
+                          <p className="text-[10px] text-[#616173] font-[600] leading-3">
+                            Only wrong/defect item returns allowed
+                          </p>
+                        </div>
+                        <div className="p-[10px]">
+                          <p className="text-[17px] text-black font-[600]">
+                            ₹{+filterdata[0]?.price}
+                          </p>
+                        </div>
+                        <div className="w-full px-[6px] py-[1px]">
+                          <div className="flex justify-start gap-1 bg-[rgb(211_244_234)] px-[6px] text-[10px] items-center w-full h-[20px] text-[rgb(3_141_99)] rounded-full">
+                            <LazyImage
+                              src={homerupeeicon}
+                              className="w-[12px] h-[12px] object-contain"
+                            />
+                            Special Offer | Save ₹20
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div
-                    onClick={() => {
-                      setaddtocartyn(false);
-                    }}
-                    className={`w-[48%] h-[125px] relative border-[1px] ${
-                      addtocartyn === false
-                        ? "border-[#570d48]"
-                        : "border-[#eaeaf2]"
-                    } rounded-lg`}
-                  >
-                    {addtocartyn === false && (
-                      <div className="absolute top-[-8px] right-[-8px] w-fit h-fit">
-                        <LazyImage
-                          src={checkpurple}
-                          className="h-[21px] w-auto object-contain"
-                        />
-                      </div>
-                    )}
-                    <div className="w-full h-[48px] border-b-[1px] bg-[#f8f8ff] border-[#eaeaf2] p-[10px] flex  justify-start items-center rounded-t-lg gap-[5px]">
-                      <div className="bg-[#616173] text-[11px] text-white w-fit px-[5px] py-[2px] rounded-[5px]">
-                        No
-                      </div>
-                      <p className="text-[10px] text-[#616173] font-[600] leading-3">
-                        Only wrong/defect item returns allowed
-                      </p>
-                    </div>
-                    <div className="p-[10px]">
-                      <p className="text-[17px] text-black font-[600]">
-                        ₹{+filterdata[0]?.price}
-                      </p>
-                    </div>
-                    <div className="w-full px-[6px] py-[1px]">
-                      <div className="flex justify-start gap-1 bg-[rgb(211_244_234)] px-[6px] text-[10px] items-center w-full h-[20px] text-[rgb(3_141_99)] rounded-full">
-                        <LazyImage
-                          src={homerupeeicon}
-                          className="w-[12px] h-[12px] object-contain"
-                        />
-                        Special Offer | Save ₹20
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="w-full py-[12px] px-[16px] bg-white border-none flex justify-between items-center">
-                <button
-                  onClick={() => {
-                    addtocartButton(filterdata[0]?.id);
-                  }}
-                  type="button"
-                  className={`mr-[12px] ml-0 mx-0 h-[46px] w-[100%]
+                  <div className="w-full py-[12px] px-[16px] bg-white border-none flex justify-between items-center">
+                    <button
+                      onClick={() => {
+                        addtocartButton(filterdata[0]?.id);
+                      }}
+                      type="button"
+                      className={`mr-[12px] ml-0 mx-0 h-[46px] w-[100%]
                     border-[rgb(159_32_137)] p-[10px] bg-[rgb(159_32_137)] text-white text-[15px] font-[500] rounded-[4px] border-[1px] flex justify-center gap-1 items-center`}
-                >
-                  <svg
-                    width="21"
-                    height="21"
-                    fill="transparent"
-                    xmlns="http://www.w3.org/2000/svg"
-                    ml="4"
-                    mr="4"
-                    iconsize="20"
-                    className="w-[20px] h-[20px]"
-                  >
-                    <g clip-path="url(#cart_svg__a)">
-                      <path fill="transparent" d="M.394.479h20v20h-20z"></path>
-                      <g clip-path="url(#cart_svg__b)">
-                        <g clip-path="url(#cart_svg__c)">
-                          <path
-                            d="M4.396 4.293h15.139c.507 0 .907.491.849 1.046l-.762 7.335c-.068.619-.536 1.1-1.102 1.12l-12.075.492-2.05-9.993Z"
-                            fill="#fff"
-                          ></path>
-                          <path
-                            d="M10.193 20.478c.674 0 1.22-.598 1.22-1.335s-.546-1.334-1.22-1.334c-.674 0-1.22.597-1.22 1.334 0 .737.546 1.335 1.22 1.335ZM15.181 20.478c.674 0 1.22-.598 1.22-1.335s-.546-1.334-1.22-1.334c-.674 0-1.22.597-1.22 1.334 0 .737.546 1.335 1.22 1.335Z"
-                            fill="#fff"
-                          ></path>
-                          <path
-                            d="M1.126 3.28 4.152 4.7 6.68 16.784c.127.608.615 1.035 1.18 1.035h9.615"
-                            stroke="#fff"
-                            stroke-width="1.5"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          ></path>
+                    >
+                      <svg
+                        width="21"
+                        height="21"
+                        fill="transparent"
+                        xmlns="http://www.w3.org/2000/svg"
+                        ml="4"
+                        mr="4"
+                        iconsize="20"
+                        className="w-[20px] h-[20px]"
+                      >
+                        <g clip-path="url(#cart_svg__a)">
+                          <path fill="transparent" d="M.394.479h20v20h-20z"></path>
+                          <g clip-path="url(#cart_svg__b)">
+                            <g clip-path="url(#cart_svg__c)">
+                              <path
+                                d="M4.396 4.293h15.139c.507 0 .907.491.849 1.046l-.762 7.335c-.068.619-.536 1.1-1.102 1.12l-12.075.492-2.05-9.993Z"
+                                fill="#fff"
+                              ></path>
+                              <path
+                                d="M10.193 20.478c.674 0 1.22-.598 1.22-1.335s-.546-1.334-1.22-1.334c-.674 0-1.22.597-1.22 1.334 0 .737.546 1.335 1.22 1.335ZM15.181 20.478c.674 0 1.22-.598 1.22-1.335s-.546-1.334-1.22-1.334c-.674 0-1.22.597-1.22 1.334 0 .737.546 1.335 1.22 1.335Z"
+                                fill="#fff"
+                              ></path>
+                              <path
+                                d="M1.126 3.28 4.152 4.7 6.68 16.784c.127.608.615 1.035 1.18 1.035h9.615"
+                                stroke="#fff"
+                                stroke-width="1.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              ></path>
+                            </g>
+                          </g>
                         </g>
-                      </g>
-                    </g>
-                    <defs>
-                      <clipPath id="cart_svg__a">
-                        <path
-                          fill="#fff"
-                          transform="translate(.394 .479)"
-                          d="M0 0h20v20H0z"
-                        ></path>
-                      </clipPath>
-                      <clipPath id="cart_svg__b">
-                        <path
-                          fill="#fff"
-                          transform="translate(.394 .479)"
-                          d="M0 0h20v20H0z"
-                        ></path>
-                      </clipPath>
-                      <clipPath id="cart_svg__c">
-                        <path
-                          fill="#fff"
-                          transform="translate(.394 2.479)"
-                          d="M0 0h20v18H0z"
-                        ></path>
-                      </clipPath>
-                    </defs>
-                  </svg>
-                  Add to Cart
-                </button>
+                        <defs>
+                          <clipPath id="cart_svg__a">
+                            <path
+                              fill="#fff"
+                              transform="translate(.394 .479)"
+                              d="M0 0h20v20H0z"
+                            ></path>
+                          </clipPath>
+                          <clipPath id="cart_svg__b">
+                            <path
+                              fill="#fff"
+                              transform="translate(.394 .479)"
+                              d="M0 0h20v20H0z"
+                            ></path>
+                          </clipPath>
+                          <clipPath id="cart_svg__c">
+                            <path
+                              fill="#fff"
+                              transform="translate(.394 2.479)"
+                              d="M0 0h20v18H0z"
+                            ></path>
+                          </clipPath>
+                        </defs>
+                      </svg>
+                      Add to Cart
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        </div>
         )}
         {buynowpopup && (
           <div
             className={`fixed left-0 right-0 bottom-0 top-0 transition-all block bg-[#353543]/90 z-[999999999999999999]`}
           >
-        <div
-          className={`absolute bottom-0 right-0 left-0 ${
-            buynowpopup ? "opacity-100 h-fit" : "opacity-0 h-0 hidden"
-          } w-full h-fit duration-1000 transition-all rounded-[8px_8px_0_0] bg-white cursor-default z-[999999999999999999]`}
-          ref={buynowsidebar}
-        >
-          <div className="w-full h-fit">
-            <div className="p-[16px] flex justify-between items-center border-b-[1px] border-[#dddddd]">
-              <p className="text-[13px] font-medium uppercase text-[#353543]">
-                Buy Now
-              </p>
-              <button
-                className="m-0 p-0 bg-transparent w-fit h-fit border-none outline-none"
-                type="button"
-                onClick={() => {
-                  setbuynowpopup(false);
-                }}
-              >
-                <svg
-                  width="100%"
-                  height="100%"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  iconSize="20"
-                  class="w-[20px] h-[20px]"
-                >
-                  <path
-                    d="M14.3034 15.7767L10.0124 11.4858L5.70897 15.7892C5.24694 16.2512 4.58159 16.3419 4.11956 15.8799C3.65753 15.4178 3.76954 14.7738 4.23157 14.3117L8.53496 10.0083L4.22267 5.69605C3.76064 5.23402 3.65753 4.58108 4.11956 4.11905C4.58159 3.65702 5.22039 3.77427 5.68243 4.2363L9.99472 8.54859L14.3123 4.23106C14.7743 3.76902 15.4183 3.65702 15.8804 4.11905C16.3424 4.58108 16.2517 5.24643 15.7897 5.70846L11.4721 10.026L15.7631 14.317C16.2251 14.779 16.3424 15.4178 15.8804 15.8799C15.4183 16.3419 14.7654 16.2388 14.3034 15.7767Z"
-                    fill="#666666"
-                  ></path>
-                </svg>
-              </button>
-            </div>
-            <div className="w-full">
-            {/* {filterdata[0]?.size?.length > 0 &&<div className="w-full pt-[20px] pb-[28px] px-[16px] border-[1px] border-b-[#dddddd]">
+            <div
+              className={`absolute bottom-0 right-0 left-0 ${buynowpopup ? "opacity-100 h-fit" : "opacity-0 h-0 hidden"
+                } w-full h-fit duration-1000 transition-all rounded-[8px_8px_0_0] bg-white cursor-default z-[999999999999999999]`}
+              ref={buynowsidebar}
+            >
+              <div className="w-full h-fit">
+                <div className="p-[16px] flex justify-between items-center border-b-[1px] border-[#dddddd]">
+                  <p className="text-[13px] font-medium uppercase text-[#353543]">
+                    Buy Now
+                  </p>
+                  <button
+                    className="m-0 p-0 bg-transparent w-fit h-fit border-none outline-none"
+                    type="button"
+                    onClick={() => {
+                      setbuynowpopup(false);
+                    }}
+                  >
+                    <svg
+                      width="100%"
+                      height="100%"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      iconSize="20"
+                      class="w-[20px] h-[20px]"
+                    >
+                      <path
+                        d="M14.3034 15.7767L10.0124 11.4858L5.70897 15.7892C5.24694 16.2512 4.58159 16.3419 4.11956 15.8799C3.65753 15.4178 3.76954 14.7738 4.23157 14.3117L8.53496 10.0083L4.22267 5.69605C3.76064 5.23402 3.65753 4.58108 4.11956 4.11905C4.58159 3.65702 5.22039 3.77427 5.68243 4.2363L9.99472 8.54859L14.3123 4.23106C14.7743 3.76902 15.4183 3.65702 15.8804 4.11905C16.3424 4.58108 16.2517 5.24643 15.7897 5.70846L11.4721 10.026L15.7631 14.317C16.2251 14.779 16.3424 15.4178 15.8804 15.8799C15.4183 16.3419 14.7654 16.2388 14.3034 15.7767Z"
+                        fill="#666666"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+                <div className="w-full">
+                  {/* {filterdata[0]?.size?.length > 0 &&<div className="w-full pt-[20px] pb-[28px] px-[16px] border-[1px] border-b-[#dddddd]">
                 <h5 className="text-[17px] text-[rgb(53_53_67)] font-[700] mb-[16px]">
                   Select Size
                 </h5>
@@ -1449,276 +1462,271 @@ function Productpage({ data }) {
                   })}
                 </div>
               </div>} */}
-              <div className="w-full p-[16px] border-[1px] border-b-[#dddddd]">
-                <div className="flex justify-between items-center w-full">
-                  <p className="text-[15px] text-[#616173] font-medium">
-                    Do you want Easy Returns?
-                  </p>
-                  <button
-                    onClick={() => {
-                      setviewdetailwspopup(true);
-                    }}
-                    type="button"
-                    className="m-0 p-0 w-fit bg-transparent border-none text-[15px] text-[#570d48] font-medium"
-                  >
-                    View Details
-                  </button>
-                </div>
-                <div className="flex justify-between items-center w-full mt-[16px]">
-                  <div
-                    onClick={() => {
-                      setbuynowyn(true);
-                    }}
-                    className={`w-[48%] h-[125px] relative border-[1px] ${
-                      buynowyn ? "border-[#570d48]" : "border-[#eaeaf2]"
-                    } rounded-lg`}
-                  >
-                    {buynowyn && (
-                      <div className="absolute top-[-8px] right-[-8px] w-fit h-fit">
-                        <LazyImage
-                          src={checkpurple}
-                          className="h-[21px] w-auto object-contain"
-                        />
-                      </div>
-                    )}
-                    <div className="w-full h-[48px] border-b-[1px] bg-[#f8f8ff] border-[#eaeaf2] p-[10px] flex  justify-start items-center rounded-t-lg gap-[5px]">
-                      <div className="bg-[#616173] text-[11px] text-white w-fit px-[5px] py-[2px] rounded-[5px]">
-                        Yes
-                      </div>
-                      <p className="text-[10px] text-[#616173] font-[600] leading-3">
-                        All issue easy returns allowed
+                  <div className="w-full p-[16px] border-[1px] border-b-[#dddddd]">
+                    <div className="flex justify-between items-center w-full">
+                      <p className="text-[15px] text-[#616173] font-medium">
+                        Do you want Easy Returns?
                       </p>
+                      <button
+                        onClick={() => {
+                          setviewdetailwspopup(true);
+                        }}
+                        type="button"
+                        className="m-0 p-0 w-fit bg-transparent border-none text-[15px] text-[#570d48] font-medium"
+                      >
+                        View Details
+                      </button>
                     </div>
-                    <div className="p-[10px]">
-                      <p className="text-[17px] text-black font-[600]">
-                        ₹{+filterdata[0]?.price + 20}
-                      </p>
+                    <div className="flex justify-between items-center w-full mt-[16px]">
+                      <div
+                        onClick={() => {
+                          setbuynowyn(true);
+                        }}
+                        className={`w-[48%] h-[125px] relative border-[1px] ${buynowyn ? "border-[#570d48]" : "border-[#eaeaf2]"
+                          } rounded-lg`}
+                      >
+                        {buynowyn && (
+                          <div className="absolute top-[-8px] right-[-8px] w-fit h-fit">
+                            <LazyImage
+                              src={checkpurple}
+                              className="h-[21px] w-auto object-contain"
+                            />
+                          </div>
+                        )}
+                        <div className="w-full h-[48px] border-b-[1px] bg-[#f8f8ff] border-[#eaeaf2] p-[10px] flex  justify-start items-center rounded-t-lg gap-[5px]">
+                          <div className="bg-[#616173] text-[11px] text-white w-fit px-[5px] py-[2px] rounded-[5px]">
+                            Yes
+                          </div>
+                          <p className="text-[10px] text-[#616173] font-[600] leading-3">
+                            All issue easy returns allowed
+                          </p>
+                        </div>
+                        <div className="p-[10px]">
+                          <p className="text-[17px] text-black font-[600]">
+                            ₹{+filterdata[0]?.price + 20}
+                          </p>
+                        </div>
+                      </div>
+                      <div
+                        onClick={() => {
+                          setbuynowyn(false);
+                        }}
+                        className={`w-[48%] h-[125px] relative border-[1px] ${buynowyn === false
+                          ? "border-[#570d48]"
+                          : "border-[#eaeaf2]"
+                          } rounded-lg`}
+                      >
+                        {buynowyn === false && (
+                          <div className="absolute top-[-8px] right-[-8px] w-fit h-fit">
+                            <LazyImage
+                              src={checkpurple}
+                              className="h-[21px] w-auto object-contain"
+                            />
+                          </div>
+                        )}
+                        <div className="w-full h-[48px] border-b-[1px] bg-[#f8f8ff] border-[#eaeaf2] p-[10px] flex  justify-start items-center rounded-t-lg gap-[5px]">
+                          <div className="bg-[#616173] text-[11px] text-white w-fit px-[5px] py-[2px] rounded-[5px]">
+                            No
+                          </div>
+                          <p className="text-[10px] text-[#616173] font-[600] leading-3">
+                            Only wrong/defect item returns allowed
+                          </p>
+                        </div>
+                        <div className="p-[10px]">
+                          <p className="text-[17px] text-black font-[600]">
+                            ₹{+filterdata[0]?.price}
+                          </p>
+                        </div>
+                        <div className="w-full px-[6px] py-[1px]">
+                          <div className="flex justify-start gap-1 bg-[rgb(211_244_234)] px-[6px] text-[10px] items-center w-full h-[20px] text-[rgb(3_141_99)] rounded-full">
+                            <LazyImage
+                              src={homerupeeicon}
+                              className="w-[12px] h-[12px] object-contain"
+                            />
+                            Special Offer | Save ₹3
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div
-                    onClick={() => {
-                      setbuynowyn(false);
-                    }}
-                    className={`w-[48%] h-[125px] relative border-[1px] ${
-                      buynowyn === false
-                        ? "border-[#570d48]"
-                        : "border-[#eaeaf2]"
-                    } rounded-lg`}
-                  >
-                    {buynowyn === false && (
-                      <div className="absolute top-[-8px] right-[-8px] w-fit h-fit">
-                        <LazyImage
-                          src={checkpurple}
-                          className="h-[21px] w-auto object-contain"
-                        />
-                      </div>
-                    )}
-                    <div className="w-full h-[48px] border-b-[1px] bg-[#f8f8ff] border-[#eaeaf2] p-[10px] flex  justify-start items-center rounded-t-lg gap-[5px]">
-                      <div className="bg-[#616173] text-[11px] text-white w-fit px-[5px] py-[2px] rounded-[5px]">
-                        No
-                      </div>
-                      <p className="text-[10px] text-[#616173] font-[600] leading-3">
-                        Only wrong/defect item returns allowed
-                      </p>
-                    </div>
-                    <div className="p-[10px]">
-                      <p className="text-[17px] text-black font-[600]">
-                        ₹{+filterdata[0]?.price}
-                      </p>
-                    </div>
-                    <div className="w-full px-[6px] py-[1px]">
-                      <div className="flex justify-start gap-1 bg-[rgb(211_244_234)] px-[6px] text-[10px] items-center w-full h-[20px] text-[rgb(3_141_99)] rounded-full">
-                        <LazyImage
-                          src={homerupeeicon}
-                          className="w-[12px] h-[12px] object-contain"
-                        />
-                        Special Offer | Save ₹3
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="w-full py-[12px] px-[16px] bg-white border-none flex justify-between items-center">
-                <button
-                  onClick={() => {
-                    buynowProductData(filterdata[0]);
-                  }}
-                  type="button"
-                  className={`mr-[12px] ml-0 mx-0 h-[46px] w-[100%]
+                  <div className="w-full py-[12px] px-[16px] bg-white border-none flex justify-between items-center">
+                    <button
+                      onClick={() => {
+                        buynowProductData(filterdata[0]);
+                      }}
+                      type="button"
+                      className={`mr-[12px] ml-0 mx-0 h-[46px] w-[100%]
                     border-[rgb(159_32_137)] p-[10px] bg-[rgb(159_32_137)] text-white text-[15px] font-[500] rounded-[4px] border-[1px] flex justify-center gap-1 items-center`}
-                >
-                  <svg
-                    width="21"
-                    height="21"
-                    fill="#ffffff"
-                    xmlns="http://www.w3.org/2000/svg"
-                    ml="4"
-                    mr="4"
-                    stroke="transparent"
-                    btnType="solid"
-                    icon="[object Object]"
-                    iconSize="20"
-                    class="sc-gswNZR dXbsni"
-                  >
-                    <path
-                      d="M1.894 4.546v11.796a.5.5 0 0 0 .837.369l6.74-6.18a.5.5 0 0 0-.017-.752l-6.74-5.617a.5.5 0 0 0-.82.384ZM11.894 4.546v11.796a.5.5 0 0 0 .837.369l6.74-6.18a.5.5 0 0 0-.017-.752l-6.74-5.617a.5.5 0 0 0-.82.384Z"
-                      fill="#fff"
-                    ></path>
-                  </svg>
-                  Buy Now
-                </button>
+                    >
+                      <svg
+                        width="21"
+                        height="21"
+                        fill="#ffffff"
+                        xmlns="http://www.w3.org/2000/svg"
+                        ml="4"
+                        mr="4"
+                        stroke="transparent"
+                        btnType="solid"
+                        icon="[object Object]"
+                        iconSize="20"
+                        class="sc-gswNZR dXbsni"
+                      >
+                        <path
+                          d="M1.894 4.546v11.796a.5.5 0 0 0 .837.369l6.74-6.18a.5.5 0 0 0-.017-.752l-6.74-5.617a.5.5 0 0 0-.82.384ZM11.894 4.546v11.796a.5.5 0 0 0 .837.369l6.74-6.18a.5.5 0 0 0-.017-.752l-6.74-5.617a.5.5 0 0 0-.82.384Z"
+                          fill="#fff"
+                        ></path>
+                      </svg>
+                      Buy Now
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        </div>
         )}
         {viewdetailwspopup && (
           <div
             className={`fixed left-0 right-0 bottom-0 top-0 transition-all block bg-[#353543]/90 z-[999999999999999999]`}
           >
-        <div
-          className={`absolute bottom-0 right-0 left-0 ${
-            viewdetailwspopup ? "opacity-100 h-fit" : "opacity-0 h-0 hidden"
-          } w-full h-fit duration-1000 transition-all rounded-[8px_8px_0_0] bg-white cursor-default z-[999999999999999999]`}
-          ref={viewdetailwssidebar}
-        >
-          <div className="w-full h-fit">
-            <div className="p-[16px] flex justify-between items-center border-b-[1px] border-[#dddddd]">
-              <p className="text-[13px] font-medium uppercase text-[#353543]">
-                RETURN TYPES
-              </p>
-              <button
-                className="m-0 p-0 bg-transparent w-fit h-fit border-none outline-none"
-                type="button"
-                onClick={() => {
-                  setviewdetailwspopup(false);
-                }}
-              >
-                <svg
-                  width="100%"
-                  height="100%"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  iconSize="20"
-                  class="w-[20px] h-[20px]"
-                >
-                  <path
-                    d="M14.3034 15.7767L10.0124 11.4858L5.70897 15.7892C5.24694 16.2512 4.58159 16.3419 4.11956 15.8799C3.65753 15.4178 3.76954 14.7738 4.23157 14.3117L8.53496 10.0083L4.22267 5.69605C3.76064 5.23402 3.65753 4.58108 4.11956 4.11905C4.58159 3.65702 5.22039 3.77427 5.68243 4.2363L9.99472 8.54859L14.3123 4.23106C14.7743 3.76902 15.4183 3.65702 15.8804 4.11905C16.3424 4.58108 16.2517 5.24643 15.7897 5.70846L11.4721 10.026L15.7631 14.317C16.2251 14.779 16.3424 15.4178 15.8804 15.8799C15.4183 16.3419 14.7654 16.2388 14.3034 15.7767Z"
-                    fill="#666666"
-                  ></path>
-                </svg>
-              </button>
-            </div>
-            <div className="w-full pt-[16px] px-[16px] pb-[32px]">
-              <div className="flex justify-between items-center w-full">
-                <div
-                  className={`w-[48%] h-[125px] border-[1px] border-[#eaeaf2] rounded-lg`}
-                >
-                  <div className="w-full h-[48px] border-b-[1px] bg-[#f8f8ff] border-[#eaeaf2] p-[10px] flex  justify-start items-center rounded-t-lg gap-[5px]">
-                    <p className="text-[13px] text-[#616173] font-[600] leading-4">
-                      All issue easy returns allowed
-                    </p>
-                  </div>
-                  <div className="p-[10px]">
-                    <p className="text-[17px] text-black font-[600]">
-                      ₹{+filterdata[0]?.price + 20}
-                    </p>
-                  </div>
+            <div
+              className={`absolute bottom-0 right-0 left-0 ${viewdetailwspopup ? "opacity-100 h-fit" : "opacity-0 h-0 hidden"
+                } w-full h-fit duration-1000 transition-all rounded-[8px_8px_0_0] bg-white cursor-default z-[999999999999999999]`}
+              ref={viewdetailwssidebar}
+            >
+              <div className="w-full h-fit">
+                <div className="p-[16px] flex justify-between items-center border-b-[1px] border-[#dddddd]">
+                  <p className="text-[13px] font-medium uppercase text-[#353543]">
+                    RETURN TYPES
+                  </p>
+                  <button
+                    className="m-0 p-0 bg-transparent w-fit h-fit border-none outline-none"
+                    type="button"
+                    onClick={() => {
+                      setviewdetailwspopup(false);
+                    }}
+                  >
+                    <svg
+                      width="100%"
+                      height="100%"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      iconSize="20"
+                      class="w-[20px] h-[20px]"
+                    >
+                      <path
+                        d="M14.3034 15.7767L10.0124 11.4858L5.70897 15.7892C5.24694 16.2512 4.58159 16.3419 4.11956 15.8799C3.65753 15.4178 3.76954 14.7738 4.23157 14.3117L8.53496 10.0083L4.22267 5.69605C3.76064 5.23402 3.65753 4.58108 4.11956 4.11905C4.58159 3.65702 5.22039 3.77427 5.68243 4.2363L9.99472 8.54859L14.3123 4.23106C14.7743 3.76902 15.4183 3.65702 15.8804 4.11905C16.3424 4.58108 16.2517 5.24643 15.7897 5.70846L11.4721 10.026L15.7631 14.317C16.2251 14.779 16.3424 15.4178 15.8804 15.8799C15.4183 16.3419 14.7654 16.2388 14.3034 15.7767Z"
+                        fill="#666666"
+                      ></path>
+                    </svg>
+                  </button>
                 </div>
-                <div
-                  className={`w-[48%] h-[125px] border-[1px] border-[#eaeaf2] rounded-lg`}
-                >
-                  <div className="w-full h-[48px] border-b-[1px] bg-[#f8f8ff] border-[#eaeaf2] p-[10px] flex  justify-start items-center rounded-t-lg gap-[5px]">
-                    <p className="text-[13px] text-[#616173] font-[600] leading-4">
-                      Only wrong/defect item returns allowed
-                    </p>
+                <div className="w-full pt-[16px] px-[16px] pb-[32px]">
+                  <div className="flex justify-between items-center w-full">
+                    <div
+                      className={`w-[48%] h-[125px] border-[1px] border-[#eaeaf2] rounded-lg`}
+                    >
+                      <div className="w-full h-[48px] border-b-[1px] bg-[#f8f8ff] border-[#eaeaf2] p-[10px] flex  justify-start items-center rounded-t-lg gap-[5px]">
+                        <p className="text-[13px] text-[#616173] font-[600] leading-4">
+                          All issue easy returns allowed
+                        </p>
+                      </div>
+                      <div className="p-[10px]">
+                        <p className="text-[17px] text-black font-[600]">
+                          ₹{+filterdata[0]?.price + 20}
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      className={`w-[48%] h-[125px] border-[1px] border-[#eaeaf2] rounded-lg`}
+                    >
+                      <div className="w-full h-[48px] border-b-[1px] bg-[#f8f8ff] border-[#eaeaf2] p-[10px] flex  justify-start items-center rounded-t-lg gap-[5px]">
+                        <p className="text-[13px] text-[#616173] font-[600] leading-4">
+                          Only wrong/defect item returns allowed
+                        </p>
+                      </div>
+                      <div className="p-[10px]">
+                        <p className="text-[17px] text-black font-[600]">
+                          ₹{+filterdata[0]?.price}
+                        </p>
+                      </div>
+                      <div className="w-full px-[6px] py-[1px]">
+                        <div className="flex justify-start gap-1 bg-[rgb(211_244_234)] px-[6px] text-[10px] items-center w-full h-[20px] text-[rgb(3_141_99)] rounded-full">
+                          <LazyImage
+                            src={homerupeeicon}
+                            className="w-[12px] h-[12px] object-contain"
+                          />
+                          Special Offer | Save ₹3
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="p-[10px]">
-                    <p className="text-[17px] text-black font-[600]">
-                      ₹{+filterdata[0]?.price}
+                  <div className="my-[16px] w-full border-b border-black"></div>
+                  <div>
+                    <p className="text-[17px] text-[#353543] font-[700] mb-[16px]">
+                      Watch this video to know more
                     </p>
-                  </div>
-                  <div className="w-full px-[6px] py-[1px]">
-                    <div className="flex justify-start gap-1 bg-[rgb(211_244_234)] px-[6px] text-[10px] items-center w-full h-[20px] text-[rgb(3_141_99)] rounded-full">
-                      <LazyImage
-                        src={homerupeeicon}
-                        className="w-[12px] h-[12px] object-contain"
-                      />
-                      Special Offer | Save ₹3
+                    <div className="bg-black h-[270px] rounded-[10px]">
+                      <div className="h-[56px] flex justify-start gap-2 items-center px-[16px] py-[12px]">
+                        <button
+                          onClick={() => {
+                            setvideodata(false);
+                          }}
+                          className={`rounded-full py-2 px-3 ${videodata === false ? "bg-[#570d48]" : "bg-gray-700"
+                            } m-0 border-none outline-none text-[15px] font-bold text-white`}
+                          type="button"
+                        >
+                          English
+                        </button>
+                        <button
+                          onClick={() => {
+                            setvideodata(true);
+                          }}
+                          className={`rounded-full py-2 px-3 ${videodata ? "bg-[#570d48]" : "bg-gray-700"
+                            } m-0 border-none outline-none text-[15px] font-bold text-white`}
+                          type="button"
+                        >
+                          Hindi
+                        </button>
+                      </div>
+                      {videodata && (
+                        <video
+                          controls={true}
+                          autoPlay={true}
+                          muted={true}
+                          className="w-[100%] h-[216px] object-contain overflow-clip"
+                          style={{ overflowClipMargin: "content-box" }}
+                        >
+                          <source
+                            src={
+                              "https://images.meesho.com/images/marketing/1677653869508.mp4"
+                            }
+                            type="video/mp4"
+                          />
+                        </video>
+                      )}
+                      {videodata === false && (
+                        <video
+                          controls={true}
+                          autoPlay={true}
+                          muted={true}
+                          className="w-[100%] h-[216px] object-contain overflow-clip"
+                          style={{ overflowClipMargin: "content-box" }}
+                        >
+                          <source
+                            src={
+                              "https://images.meesho.com/images/marketing/1677653893053.mp4"
+                            }
+                            type="video/mp4"
+                          />
+                        </video>
+                      )}
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="my-[16px] w-full border-b border-black"></div>
-              <div>
-                <p className="text-[17px] text-[#353543] font-[700] mb-[16px]">
-                  Watch this video to know more
-                </p>
-                <div className="bg-black h-[270px] rounded-[10px]">
-                  <div className="h-[56px] flex justify-start gap-2 items-center px-[16px] py-[12px]">
-                    <button
-                      onClick={() => {
-                        setvideodata(false);
-                      }}
-                      className={`rounded-full py-2 px-3 ${
-                        videodata === false ? "bg-[#570d48]" : "bg-gray-700"
-                      } m-0 border-none outline-none text-[15px] font-bold text-white`}
-                      type="button"
-                    >
-                      English
-                    </button>
-                    <button
-                      onClick={() => {
-                        setvideodata(true);
-                      }}
-                      className={`rounded-full py-2 px-3 ${
-                        videodata ? "bg-[#570d48]" : "bg-gray-700"
-                      } m-0 border-none outline-none text-[15px] font-bold text-white`}
-                      type="button"
-                    >
-                      Hindi
-                    </button>
-                  </div>
-                  {videodata && (
-                    <video
-                      controls={true}
-                      autoPlay={true}
-                      muted={true}
-                      className="w-[100%] h-[216px] object-contain overflow-clip"
-                      style={{ overflowClipMargin: "content-box" }}
-                    >
-                      <source
-                        src={
-                          "https://images.meesho.com/images/marketing/1677653869508.mp4"
-                        }
-                        type="video/mp4"
-                      />
-                    </video>
-                  )}
-                  {videodata === false && (
-                    <video
-                      controls={true}
-                      autoPlay={true}
-                      muted={true}
-                      className="w-[100%] h-[216px] object-contain overflow-clip"
-                      style={{ overflowClipMargin: "content-box" }}
-                    >
-                      <source
-                        src={
-                          "https://images.meesho.com/images/marketing/1677653893053.mp4"
-                        }
-                        type="video/mp4"
-                      />
-                    </video>
-                  )}
-                </div>
-              </div>
             </div>
           </div>
-        </div>
-        </div>
         )}
       </div>
     </>
