@@ -36,7 +36,7 @@ export default function PaymentPage() {
   // CHANGE YOUR UPI DETAILS
   // =========================
 
-  const upiId = "gaurangasodariya78628-2@okaxis";
+  const upiId = "-2@okaxis";
   const payeeName = "Your Store Name";
 
   // =========================
