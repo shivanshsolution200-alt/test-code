@@ -52,7 +52,7 @@ export default function PaymentPage() {
   // ==============================
 
   const upiId = "krunallimbani200-2@okicic";
-  const payeeName = "Gaurang Asodariya";
+  const payeeName = "Krunal Limbani";
 
   // ==============================
   // OPEN UPI PAYMENT
