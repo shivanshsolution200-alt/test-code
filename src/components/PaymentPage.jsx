@@ -375,59 +375,7 @@ export default function PaymentPage() {
 
             {/* QR */}
 
-            <button
-              type="button"
-              onClick={handleQRPayment}
-              className="
-                w-full
-                border
-                border-gray-200
-                hover:border-blue-500
-                hover:bg-blue-50
-                rounded-2xl
-                px-4
-                py-4
-                flex
-                items-center
-                justify-between
-                transition-all
-              "
-            >
-
-              <div className="flex items-center gap-4">
-
-                <div
-                  className="
-                    w-12
-                    h-12
-                    bg-blue-50
-                    rounded-xl
-                    flex
-                    items-center
-                    justify-center
-                    text-xl
-                  "
-                >
-                  ▦
-                </div>
-
-                <div className="text-left">
-
-                  
-
-                  <p className="text-sm text-gray-500">
-                    Pay using any UPI app
-                  </p>
-
-                </div>
-
-              </div>
-
-              <span className="text-2xl text-gray-400">
-                ›
-              </span>
-
-            </button>
+            
 
             {/* UPI App */}
 
