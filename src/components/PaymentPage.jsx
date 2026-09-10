@@ -1,130 +1,125 @@
-// PaymentPage.jsx
-
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { setCartTotalAction } from "../redux/actions/AddTocart.action";
 
 export default function PaymentPage() {
   const { buydata } = useSelector((state) => state?.buydata);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const [showPaymentOptions, setShowPaymentOptions] = useState(false);
   const [showUPIApps, setShowUPIApps] = useState(false);
 
-  const toNumber = (v) =>
-    Number(String(v).replace(/[^\d.-]/g, "")) || 0;
+  // ==============================
+  // CONVERT PRICE TO NUMBER
+  // ==============================
+
+  const toNumber = (value) => {
+    return Number(String(value).replace(/[^\d.-]/g, "")) || 0;
+  };
+
+  // ==============================
+  // PRODUCT DATA
+  // ==============================
 
   const mainProduct = buydata?.[0];
 
   const price = toNumber(mainProduct?.price);
+
   const qty = toNumber(mainProduct?.qty || 1);
+
   const checkoutItems = mainProduct?.checkoutItems || [];
 
-  const checkoutTotal = checkoutItems.reduce((acc, item) => {
+  // ==============================
+  // ADDITIONAL ITEMS TOTAL
+  // ==============================
+
+  const checkoutTotal = checkoutItems.reduce((total, item) => {
     const itemPrice = toNumber(item?.price);
     const itemQty = toNumber(item?.qty || 1);
 
-    return acc + itemPrice * itemQty;
+    return total + itemPrice * itemQty;
   }, 0);
+
+  // ==============================
+  // FINAL TOTAL
+  // ==============================
 
   const totalAmount = price * qty + checkoutTotal;
 
-  // =========================
-  // CHANGE YOUR UPI DETAILS
-  // =========================
+  // ==============================
+  // YOUR UPI DETAILS
+  // ==============================
 
-  const upiId = "-2@okaxis";
-  const payeeName = "Your Store Name";
+  const upiId = "gaurangasodariya78628-2@okaxis";
+  const payeeName = "Gaurang Asodariya";
 
-  // =========================
-  // QR PAYMENT
-  // =========================
+  // ==============================
+  // OPEN UPI PAYMENT
+  // ==============================
 
-  const handleQRPayment = () => {
+  const openUPIApp = () => {
+    // Amount validation
+
     if (!totalAmount || totalAmount <= 0) {
       alert("Invalid payment amount");
       return;
     }
 
-    if (!upiId || upiId === "YOURUPIID@upi") {
-      alert("Please add your UPI ID first.");
+    // UPI validation
+
+    if (!upiId) {
+      alert("UPI ID not configured");
       return;
     }
+
+    // Save amount in redux
 
     dispatch(setCartTotalAction(totalAmount));
 
-    setShowPaymentOptions(false);
-    setShowUPIApps(false);
+    // Unique transaction reference
+    const transactionRef = `ORDER${Date.now()}`;
 
-    navigate(
-      `/upi?mode=qr&amount=${encodeURIComponent(
-        totalAmount
-      )}&upiId=${encodeURIComponent(
-        upiId
-      )}&name=${encodeURIComponent(payeeName)}`
-    );
-  };
+    // ==============================
+    // STANDARD UPI PAYMENT URL
+    // ==============================
 
-  // =========================
-  // OPEN SELECTED UPI APP
-  // =========================
-
-  const openUPIApp = (app) => {
-    if (!totalAmount || totalAmount <= 0) {
-      alert("Invalid payment amount");
-      return;
-    }
-
-    if (!upiId || upiId === "YOURUPIID@upi") {
-      alert("Please add your UPI ID first.");
-      return;
-    }
-
-    dispatch(setCartTotalAction(totalAmount));
-
-    const params =
+    const upiUrl =
+      `upi://pay?` +
       `pa=${encodeURIComponent(upiId)}` +
       `&pn=${encodeURIComponent(payeeName)}` +
+      `&tr=${encodeURIComponent(transactionRef)}` +
+      `&tn=${encodeURIComponent("Order Payment")}` +
       `&am=${encodeURIComponent(totalAmount.toFixed(2))}` +
       `&cu=INR`;
 
-    let paymentUrl = "";
-
-    if (app === "gpay") {
-      paymentUrl = `tez://upi/pay?${params}`;
-    }
-
-    if (app === "phonepe") {
-      paymentUrl = `phonepe://pay?${params}`;
-    }
-
-    if (app === "paytm") {
-      paymentUrl = `paytmmp://pay?${params}`;
-    }
-
-    if (!paymentUrl) {
-      alert("Invalid UPI app");
-      return;
-    }
+    // Close popup
 
     setShowPaymentOptions(false);
     setShowUPIApps(false);
 
-    window.location.href = paymentUrl;
+    // Open installed UPI app / chooser
+
+    window.location.href = upiUrl;
   };
 
   return (
     <>
+      {/* ============================== */}
+      {/* PAYMENT PAGE */}
+      {/* ============================== */}
+
       <div className="bg-gray-100 min-h-screen py-10 px-4">
+
         <div className="max-w-lg mx-auto bg-white shadow-lg rounded-2xl p-6">
 
-          {/* Main Product */}
+          {/* ============================== */}
+          {/* MAIN PRODUCT */}
+          {/* ============================== */}
 
           {mainProduct && (
             <div className="flex gap-4 items-center border-b pb-4 mb-4">
+
               <img
                 src={mainProduct?.image?.[0]}
                 alt={mainProduct?.title}
@@ -132,25 +127,30 @@ export default function PaymentPage() {
               />
 
               <div className="flex-1">
+
                 <h2 className="font-semibold text-lg text-black">
                   {mainProduct?.title}
                 </h2>
 
-                <p className="text-sm text-gray-500">
-                  {mainProduct?.desc?.slice(0, 60)}
-                  {mainProduct?.desc?.length > 60 ? "..." : ""}
-                </p>
+                {mainProduct?.desc && (
+                  <p className="text-sm text-gray-500">
+                    {mainProduct.desc.slice(0, 60)}
+                    {mainProduct.desc.length > 60 ? "..." : ""}
+                  </p>
+                )}
 
                 <div className="mt-2 flex items-center gap-3">
+
                   <p className="font-bold text-xl text-black">
                     ₹{price}
                   </p>
 
                   {mainProduct?.cancelprice && (
                     <p className="line-through text-gray-400 text-sm">
-                      {mainProduct?.cancelprice}
+                      {mainProduct.cancelprice}
                     </p>
                   )}
+
                 </div>
 
                 <p className="text-sm text-gray-600 mt-1">
@@ -159,55 +159,79 @@ export default function PaymentPage() {
                     {qty}
                   </span>
                 </p>
+
               </div>
+
             </div>
           )}
 
-          {/* Additional Items */}
+          {/* ============================== */}
+          {/* ADDITIONAL ITEMS */}
+          {/* ============================== */}
 
-          {checkoutItems?.length > 0 && (
+          {checkoutItems.length > 0 && (
+
             <div className="mb-4 border-b pb-4">
 
-              <h3 className="font-semibold text-lg mb-3 text-black">
+              <h3 className="font-semibold text-lg mb-3">
                 Additional Items
               </h3>
 
-              {checkoutItems.map((item, idx) => {
+              {checkoutItems.map((item, index) => {
+
                 const itemPrice = toNumber(item?.price);
+
                 const itemQty = toNumber(item?.qty || 1);
 
                 return (
+
                   <div
-                    key={item?.id || idx}
-                    className="flex gap-4 items-center border-b last:border-b-0 pb-4 mb-4"
+                    key={item?.id || index}
+                    className="
+                      flex
+                      gap-4
+                      items-center
+                      border-b
+                      last:border-b-0
+                      pb-4
+                      mb-4
+                    "
                   >
 
                     <img
                       src={item?.image?.[0]}
                       alt={item?.title}
-                      className="w-24 h-24 rounded-lg object-cover border"
+                      className="
+                        w-24
+                        h-24
+                        rounded-lg
+                        object-cover
+                        border
+                      "
                     />
 
                     <div className="flex-1">
 
-                      <h4 className="font-semibold text-md text-black">
+                      <h4 className="font-semibold text-md">
                         {item?.title}
                       </h4>
 
-                      <p className="text-sm text-gray-500">
-                        {item?.desc?.slice(0, 60)}
-                        {item?.desc?.length > 60 ? "..." : ""}
-                      </p>
+                      {item?.desc && (
+                        <p className="text-sm text-gray-500">
+                          {item.desc.slice(0, 60)}
+                          {item.desc.length > 60 ? "..." : ""}
+                        </p>
+                      )}
 
                       <div className="mt-2 flex items-center gap-3">
 
-                        <p className="font-bold text-lg text-black">
+                        <p className="font-bold text-lg">
                           ₹{itemPrice}
                         </p>
 
                         {item?.cancelprice && (
                           <p className="line-through text-gray-400 text-sm">
-                            {item?.cancelprice}
+                            {item.cancelprice}
                           </p>
                         )}
 
@@ -222,7 +246,7 @@ export default function PaymentPage() {
 
                     </div>
 
-                    <div className="font-semibold text-lg text-black">
+                    <div className="font-semibold text-lg">
                       ₹{itemPrice * itemQty}
                     </div>
 
@@ -233,42 +257,82 @@ export default function PaymentPage() {
             </div>
           )}
 
-          {/* Order Summary */}
+          {/* ============================== */}
+          {/* ORDER SUMMARY */}
+          {/* ============================== */}
 
           <div className="mt-6">
 
-            <h3 className="font-semibold text-lg mb-3 text-black">
+            <h3 className="font-semibold text-lg mb-3">
               Order Summary
             </h3>
 
             <div className="flex justify-between text-gray-700 mb-2">
-              <span>Main Product</span>
-              <span>₹{price * qty}</span>
+
+              <span>
+                Main Product
+              </span>
+
+              <span>
+                ₹{price * qty}
+              </span>
+
             </div>
 
-            {checkoutItems?.length > 0 && (
+            {checkoutItems.length > 0 && (
+
               <div className="flex justify-between text-gray-700 mb-2">
-                <span>Additional Items</span>
-                <span>₹{checkoutTotal}</span>
+
+                <span>
+                  Additional Items
+                </span>
+
+                <span>
+                  ₹{checkoutTotal}
+                </span>
+
               </div>
             )}
 
             <div className="flex justify-between text-gray-700 mb-2">
-              <span>Shipping</span>
+
+              <span>
+                Shipping
+              </span>
 
               <span className="font-semibold text-green-600">
                 FREE
               </span>
+
             </div>
 
-            <div className="flex justify-between text-black font-semibold text-lg border-t pt-3">
-              <span>Total Amount</span>
-              <span>₹{totalAmount}</span>
+            <div
+              className="
+                flex
+                justify-between
+                text-black
+                font-semibold
+                text-lg
+                border-t
+                pt-3
+              "
+            >
+
+              <span>
+                Total Amount
+              </span>
+
+              <span>
+                ₹{totalAmount}
+              </span>
+
             </div>
 
           </div>
 
-          {/* Pay Now */}
+          {/* ============================== */}
+          {/* PAY NOW */}
+          {/* ============================== */}
 
           <button
             type="button"
@@ -295,11 +359,15 @@ export default function PaymentPage() {
           </button>
 
         </div>
+
       </div>
 
-      {/* Payment Popup */}
+      {/* ============================== */}
+      {/* PAYMENT POPUP */}
+      {/* ============================== */}
 
       {showPaymentOptions && (
+
         <div
           className="
             fixed
@@ -310,7 +378,6 @@ export default function PaymentPage() {
             items-end
             sm:items-center
             justify-center
-            px-0
             sm:px-4
           "
           onClick={() => {
@@ -320,7 +387,7 @@ export default function PaymentPage() {
         >
 
           <div
-            onClick={(e) => e.stopPropagation()}
+            onClick={(event) => event.stopPropagation()}
             className="
               bg-white
               w-full
@@ -334,11 +401,14 @@ export default function PaymentPage() {
             "
           >
 
-            {/* Header */}
+            {/* ============================== */}
+            {/* POPUP HEADER */}
+            {/* ============================== */}
 
             <div className="flex justify-between items-start mb-5">
 
               <div>
+
                 <h2 className="text-xl font-bold text-black">
                   Choose Payment Method
                 </h2>
@@ -346,6 +416,7 @@ export default function PaymentPage() {
                 <p className="text-sm text-gray-500 mt-1">
                   Total payable ₹{totalAmount}
                 </p>
+
               </div>
 
               <button
@@ -357,7 +428,6 @@ export default function PaymentPage() {
                 className="
                   w-9
                   h-9
-                  shrink-0
                   flex
                   items-center
                   justify-center
@@ -373,17 +443,14 @@ export default function PaymentPage() {
 
             </div>
 
-            {/* QR */}
-
-            
-
-            {/* UPI App */}
+            {/* ============================== */}
+            {/* PAY VIA UPI */}
+            {/* ============================== */}
 
             <button
               type="button"
-              onClick={() => setShowUPIApps((prev) => !prev)}
+              onClick={() => setShowUPIApps((previous) => !previous)}
               className="
-                mt-3
                 w-full
                 border
                 border-gray-200
@@ -438,16 +505,29 @@ export default function PaymentPage() {
 
             </button>
 
-            {/* Apps */}
+            {/* ============================== */}
+            {/* UPI APPS */}
+            {/* ============================== */}
 
             {showUPIApps && (
-              <div className="mt-3 border border-gray-200 rounded-2xl overflow-hidden">
 
-                {/* Google Pay */}
+              <div
+                className="
+                  mt-3
+                  border
+                  border-gray-200
+                  rounded-2xl
+                  overflow-hidden
+                "
+              >
+
+                {/* ============================== */}
+                {/* GOOGLE PAY */}
+                {/* ============================== */}
 
                 <button
                   type="button"
-                  onClick={() => openUPIApp("gpay")}
+                  onClick={openUPIApp}
                   className="
                     w-full
                     px-4
@@ -461,13 +541,27 @@ export default function PaymentPage() {
                     border-gray-100
                   "
                 >
+
                   <div className="flex items-center gap-3">
 
-                    <div className="w-11 h-11 rounded-full bg-gray-100 flex items-center justify-center font-bold text-blue-600">
+                    <div
+                      className="
+                        w-11
+                        h-11
+                        rounded-full
+                        bg-gray-100
+                        flex
+                        items-center
+                        justify-center
+                        font-bold
+                        text-blue-600
+                      "
+                    >
                       G
                     </div>
 
                     <div className="text-left">
+
                       <p className="font-semibold text-black">
                         Google Pay
                       </p>
@@ -475,6 +569,7 @@ export default function PaymentPage() {
                       <p className="text-xs text-gray-500">
                         Pay ₹{totalAmount}
                       </p>
+
                     </div>
 
                   </div>
@@ -482,13 +577,16 @@ export default function PaymentPage() {
                   <span className="text-2xl text-gray-400">
                     ›
                   </span>
+
                 </button>
 
-                {/* PhonePe */}
+                {/* ============================== */}
+                {/* PHONEPE */}
+                {/* ============================== */}
 
                 <button
                   type="button"
-                  onClick={() => openUPIApp("phonepe")}
+                  onClick={openUPIApp}
                   className="
                     w-full
                     px-4
@@ -502,13 +600,27 @@ export default function PaymentPage() {
                     border-gray-100
                   "
                 >
+
                   <div className="flex items-center gap-3">
 
-                    <div className="w-11 h-11 rounded-full bg-purple-50 flex items-center justify-center font-bold text-purple-600">
+                    <div
+                      className="
+                        w-11
+                        h-11
+                        rounded-full
+                        bg-purple-50
+                        flex
+                        items-center
+                        justify-center
+                        font-bold
+                        text-purple-600
+                      "
+                    >
                       P
                     </div>
 
                     <div className="text-left">
+
                       <p className="font-semibold text-black">
                         PhonePe
                       </p>
@@ -516,6 +628,7 @@ export default function PaymentPage() {
                       <p className="text-xs text-gray-500">
                         Pay ₹{totalAmount}
                       </p>
+
                     </div>
 
                   </div>
@@ -523,13 +636,16 @@ export default function PaymentPage() {
                   <span className="text-2xl text-gray-400">
                     ›
                   </span>
+
                 </button>
 
-                {/* Paytm */}
+                {/* ============================== */}
+                {/* PAYTM */}
+                {/* ============================== */}
 
                 <button
                   type="button"
-                  onClick={() => openUPIApp("paytm")}
+                  onClick={openUPIApp}
                   className="
                     w-full
                     px-4
@@ -541,13 +657,27 @@ export default function PaymentPage() {
                     hover:bg-gray-50
                   "
                 >
+
                   <div className="flex items-center gap-3">
 
-                    <div className="w-11 h-11 rounded-full bg-blue-50 flex items-center justify-center font-bold text-blue-500">
+                    <div
+                      className="
+                        w-11
+                        h-11
+                        rounded-full
+                        bg-blue-50
+                        flex
+                        items-center
+                        justify-center
+                        font-bold
+                        text-blue-500
+                      "
+                    >
                       P
                     </div>
 
                     <div className="text-left">
+
                       <p className="font-semibold text-black">
                         Paytm
                       </p>
@@ -555,6 +685,7 @@ export default function PaymentPage() {
                       <p className="text-xs text-gray-500">
                         Pay ₹{totalAmount}
                       </p>
+
                     </div>
 
                   </div>
@@ -562,12 +693,14 @@ export default function PaymentPage() {
                   <span className="text-2xl text-gray-400">
                     ›
                   </span>
+
                 </button>
 
               </div>
             )}
 
           </div>
+
         </div>
       )}
     </>
