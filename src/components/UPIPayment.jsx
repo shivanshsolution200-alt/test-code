@@ -34,8 +34,8 @@ export default function PaymentPage() {
   // CHANGE YOUR REAL UPI DETAILS HERE
   // =========================================
 
-  const upiId = "gaurangasodariya78628-2@okaxis";
-  const payeeName = "Your Store Name";
+  const upiId = "6351951997@axisbank";
+  const payeeName = "Gaurang asodariya";
 
   // =========================================
   // OPEN SELECTED UPI APP
