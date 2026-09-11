@@ -34,7 +34,7 @@ export default function PaymentPage() {
   // CHANGE YOUR REAL UPI DETAILS HERE
   // =========================================
 
-  const upiId = "6351951997@axisbank";
+  const upiId = "q736407414@ybl";
   const payeeName = "Gaurang asodariya";
 
   // =========================================
