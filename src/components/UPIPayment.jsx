@@ -38,54 +38,34 @@ export default function PaymentPage() {
   const payeeName = "Krunal Limbani";
 
   // =========================================
-  // OPEN SELECTED UPI APP
+  // OPEN UPI PAYMENT
   // =========================================
 
-  const openUPIApp = (app) => {
+  const openUPIApp = () => {
     if (!totalAmount || totalAmount <= 0) {
       alert("Invalid payment amount");
       return;
     }
 
     if (!upiId) {
-      alert("Please add your UPI ID first.");
+      alert("UPI ID not configured");
       return;
     }
 
     dispatch(setCartTotalAction(totalAmount));
 
-    const params =
-      `pa=${encodeURIComponent(upiId)}` +
+    const amount = Number(totalAmount).toFixed(2);
+
+    const upiUrl =
+      `upi://pay?pa=${encodeURIComponent(upiId)}` +
       `&pn=${encodeURIComponent(payeeName)}` +
-      `&am=${encodeURIComponent(totalAmount.toFixed(2))}` +
+      `&am=${encodeURIComponent(amount)}` +
       `&cu=INR`;
-
-    let paymentUrl = "";
-
-    // Google Pay
-    if (app === "gpay") {
-      paymentUrl = `tez://upi/pay?${params}`;
-    }
-
-    // PhonePe
-    if (app === "phonepe") {
-      paymentUrl = `phonepe://pay?${params}`;
-    }
-
-    // Paytm
-    if (app === "paytm") {
-      paymentUrl = `paytmmp://pay?${params}`;
-    }
-
-    if (!paymentUrl) {
-      alert("Invalid UPI app");
-      return;
-    }
 
     setShowPaymentOptions(false);
     setShowUPIApps(false);
 
-    window.location.href = paymentUrl;
+    window.location.href = upiUrl;
   };
 
   return (
@@ -448,7 +428,7 @@ export default function PaymentPage() {
 
                 <button
                   type="button"
-                  onClick={() => openUPIApp("gpay")}
+                  onClick={openUPIApp}
                   className="
                     w-full
                     px-4
@@ -506,7 +486,7 @@ export default function PaymentPage() {
 
                 <button
                   type="button"
-                  onClick={() => openUPIApp("phonepe")}
+                  onClick={openUPIApp}
                   className="
                     w-full
                     px-4
@@ -564,7 +544,7 @@ export default function PaymentPage() {
 
                 <button
                   type="button"
-                  onClick={() => openUPIApp("paytm")}
+                  onClick={openUPIApp}
                   className="
                     w-full
                     px-4

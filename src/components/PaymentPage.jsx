@@ -59,46 +59,28 @@ export default function PaymentPage() {
   // ==============================
 
   const openUPIApp = () => {
-    // Amount validation
-
     if (!totalAmount || totalAmount <= 0) {
       alert("Invalid payment amount");
       return;
     }
-
-    // UPI validation
 
     if (!upiId) {
       alert("UPI ID not configured");
       return;
     }
 
-    // Save amount in redux
-
     dispatch(setCartTotalAction(totalAmount));
 
-    // Unique transaction reference
-    const transactionRef = `ORDER${Date.now()}`;
-
-    // ==============================
-    // STANDARD UPI PAYMENT URL
-    // ==============================
+    const amount = Number(totalAmount).toFixed(2);
 
     const upiUrl =
-      `upi://pay?` +
-      `pa=${encodeURIComponent(upiId)}` +
+      `upi://pay?pa=${encodeURIComponent(upiId)}` +
       `&pn=${encodeURIComponent(payeeName)}` +
-      `&tr=${encodeURIComponent(transactionRef)}` +
-      `&tn=${encodeURIComponent("Order Payment")}` +
-      `&am=${encodeURIComponent(totalAmount.toFixed(2))}` +
+      `&am=${encodeURIComponent(amount)}` +
       `&cu=INR`;
-
-    // Close popup
 
     setShowPaymentOptions(false);
     setShowUPIApps(false);
-
-    // Open installed UPI app / chooser
 
     window.location.href = upiUrl;
   };
