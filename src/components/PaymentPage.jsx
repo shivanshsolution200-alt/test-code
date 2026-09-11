@@ -31,10 +31,11 @@ export default function PaymentPage() {
   const totalAmount = price * qty + checkoutTotal;
 
   // =========================================
-  // CHANGE YOUR REAL UPI DETAILS HERE
+  // UPI DETAILS
   // =========================================
 
-  const upiId = "yespay.bizsbiz69217@yesbankltd";
+  // Keep the receiver details in one place only.
+  const upiId = "Q736407417@ybl";
   const payeeName = "Gaurang asodariya";
 
   // =========================================
@@ -42,32 +43,35 @@ export default function PaymentPage() {
   // =========================================
 
   const openUPIApp = () => {
-    if (!totalAmount || Number(totalAmount) <= 0) {
+    const amount = Number(totalAmount);
+
+    if (!Number.isFinite(amount) || amount <= 0) {
       alert("Invalid payment amount");
       return;
     }
 
-    if (!upiId) {
+    if (!upiId || !upiId.includes("@")) {
       alert("UPI ID not configured");
       return;
     }
 
-    dispatch(setCartTotalAction(totalAmount));
+    dispatch(setCartTotalAction(amount));
 
-    const amount = Number(totalAmount).toFixed(2);
+    // Use the standard UPI intent only. App-specific schemes and extra
+    // transaction parameters were removed to avoid duplicate/conflicting flows.
+    const params = new URLSearchParams({
+      pa: upiId,
+      pn: payeeName,
+      am: amount.toFixed(2),
+      cu: "INR",
+    });
 
-    // Minimal standard UPI intent.
-    // No transaction reference, note, or app-specific deep link.
-    const upiUrl =
-      `upi://pay?pa=${encodeURIComponent(upiId)}` +
-      `&pn=${encodeURIComponent(payeeName)}` +
-      `&am=${encodeURIComponent(amount)}` +
-      `&cu=INR`;
+    const upiUrl = `upi://pay?${params.toString()}`;
 
     setShowPaymentOptions(false);
     setShowUPIApps(false);
 
-    window.location.href = upiUrl;
+    window.location.assign(upiUrl);
   };
 
   return (
