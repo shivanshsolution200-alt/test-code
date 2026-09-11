@@ -42,7 +42,16 @@ export default function PaymentPage() {
   // OPEN UPI PAYMENT
   // =========================================
 
-  const openUPIApp = () => {
+  const createOrderId = () => {
+    const part = () =>
+      Math.floor((1 + Math.random()) * 65536)
+        .toString(16)
+        .substring(1);
+
+    return `${part()}${part()}-${part()}-${part()}-${part()}-${part()}`;
+  };
+
+  const openUPIApp = (app = "upi") => {
     const amount = Number(totalAmount);
 
     if (!Number.isFinite(amount) || amount <= 0) {
@@ -57,21 +66,73 @@ export default function PaymentPage() {
 
     dispatch(setCartTotalAction(amount));
 
-    // Use the standard UPI intent only. App-specific schemes and extra
-    // transaction parameters were removed to avoid duplicate/conflicting flows.
-    const params = new URLSearchParams({
-      pa: upiId,
-      pn: payeeName,
-      am: amount.toFixed(2),
-      cu: "INR",
-    });
+    const formattedAmount = amount.toFixed(2);
+    const orderNote = `OrderNo: ${createOrderId()}`;
+    const amountInPaise = Math.round(amount * 100);
+    const isIOS =
+      typeof navigator !== "undefined" &&
+      /iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-    const upiUrl = `upi://pay?${params.toString()}`;
+    let paymentUrl = "";
+
+    if (app === "gpay" || app === "phonepe") {
+      if (isIOS) {
+        paymentUrl =
+          `phonepe:upi://pay?pa=${encodeURIComponent(upiId)}` +
+          `&pn=${encodeURIComponent(payeeName)}` +
+          `&am=${formattedAmount}` +
+          `&cu=INR` +
+          `&tn=${encodeURIComponent(orderNote)}`;
+      } else {
+        const payload = {
+          p2pPaymentCheckoutParams: {
+            checkoutType: "COLLECT",
+            initialAmount: amountInPaise,
+            note: {
+              type: "text",
+              message: orderNote,
+            },
+            supportedInstruments: -1,
+          },
+          contact: {
+            type: "EXTERNAL_MERCHANT",
+            name: payeeName,
+            vpa: upiId,
+          },
+        };
+
+        const encodedPayload = btoa(
+          unescape(encodeURIComponent(JSON.stringify(payload)))
+        );
+
+        paymentUrl =
+          `phonepe://native?data=${encodeURIComponent(encodedPayload)}` +
+          `&id=p2ppayment`;
+      }
+    } else if (app === "paytm") {
+      paymentUrl =
+        `paytmmp://cash_wallet?pa=${encodeURIComponent(upiId)}` +
+        `&pn=${encodeURIComponent(payeeName)}` +
+        `&am=${formattedAmount}` +
+        `&cu=INR` +
+        `&tn=${encodeURIComponent(orderNote)}` +
+        `&featuretype=money_transfer`;
+    } else {
+      const transactionRef = Math.floor(Math.random() * 1e10);
+
+      paymentUrl =
+        `upi://pay?pa=${encodeURIComponent(upiId)}` +
+        `&pn=${encodeURIComponent(payeeName)}` +
+        `&am=${formattedAmount}` +
+        `&cu=INR` +
+        `&tr=${transactionRef}` +
+        `&tn=${transactionRef}`;
+    }
 
     setShowPaymentOptions(false);
     setShowUPIApps(false);
 
-    window.location.assign(upiUrl);
+    window.location.href = paymentUrl;
   };
 
   return (
@@ -434,7 +495,7 @@ export default function PaymentPage() {
 
                 <button
                   type="button"
-                  onClick={openUPIApp}
+                  onClick={() => openUPIApp("gpay")}
                   className="
                     w-full
                     px-4
@@ -492,7 +553,7 @@ export default function PaymentPage() {
 
                 <button
                   type="button"
-                  onClick={openUPIApp}
+                  onClick={() => openUPIApp("phonepe")}
                   className="
                     w-full
                     px-4
@@ -550,7 +611,7 @@ export default function PaymentPage() {
 
                 <button
                   type="button"
-                  onClick={openUPIApp}
+                  onClick={() => openUPIApp("paytm")}
                   className="
                     w-full
                     px-4
