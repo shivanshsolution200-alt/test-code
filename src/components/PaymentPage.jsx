@@ -38,10 +38,10 @@ export default function PaymentPage() {
   const payeeName = "Gaurang asodariya";
 
   // =========================================
-  // OPEN SELECTED UPI APP
+  // OPEN UPI PAYMENT
   // =========================================
 
-  const openUPIApp = (app) => {
+  const openUPIApp = () => {
     if (!totalAmount || Number(totalAmount) <= 0) {
       alert("Invalid payment amount");
       return;
@@ -55,38 +55,19 @@ export default function PaymentPage() {
     dispatch(setCartTotalAction(totalAmount));
 
     const amount = Number(totalAmount).toFixed(2);
-    const txnRef = `ORD${Date.now()}`;
 
-    const params =
-      `pa=${encodeURIComponent(upiId)}` +
+    // Minimal standard UPI intent.
+    // No transaction reference, note, or app-specific deep link.
+    const upiUrl =
+      `upi://pay?pa=${encodeURIComponent(upiId)}` +
       `&pn=${encodeURIComponent(payeeName)}` +
-      `&tr=${encodeURIComponent(txnRef)}` +
-      `&tn=${encodeURIComponent("Order Payment")}` +
       `&am=${encodeURIComponent(amount)}` +
       `&cu=INR`;
-
-    let paymentUrl = `upi://pay?${params}`;
-
-    if (app === "gpay") {
-      paymentUrl = `tez://upi/pay?${params}`;
-    } else if (app === "phonepe") {
-      paymentUrl = `phonepe://pay?${params}`;
-    } else if (app === "paytm") {
-      paymentUrl = `paytmmp://pay?${params}`;
-    }
 
     setShowPaymentOptions(false);
     setShowUPIApps(false);
 
-    // Open selected UPI app. If the browser cannot handle the app-specific
-    // scheme, the standard UPI intent remains the fallback path.
-    window.location.href = paymentUrl;
-
-    setTimeout(() => {
-      if (!document.hidden) {
-        window.location.href = `upi://pay?${params}`;
-      }
-    }, 1200);
+    window.location.href = upiUrl;
   };
 
   return (
@@ -449,7 +430,7 @@ export default function PaymentPage() {
 
                 <button
                   type="button"
-                  onClick={() => openUPIApp("gpay")}
+                  onClick={openUPIApp}
                   className="
                     w-full
                     px-4
@@ -507,7 +488,7 @@ export default function PaymentPage() {
 
                 <button
                   type="button"
-                  onClick={() => openUPIApp("phonepe")}
+                  onClick={openUPIApp}
                   className="
                     w-full
                     px-4
@@ -565,7 +546,7 @@ export default function PaymentPage() {
 
                 <button
                   type="button"
-                  onClick={() => openUPIApp("paytm")}
+                  onClick={openUPIApp}
                   className="
                     w-full
                     px-4
