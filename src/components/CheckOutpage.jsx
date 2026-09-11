@@ -40,12 +40,38 @@ function CheckOutpage({ data }) {
     window?.scrollTo(0, 0);
   }, []);
   const handleContinueData = () => {
-    const payload = {
-      ...buydata[0],
-      name:"test@@@@@@@@",
-       checkoutItems: allcartItem
-    };
-    
+    const buyNowPrice =
+      buydata?.length > 0
+        ? qtyAdd *
+          (buydata[0]?.yesnoval
+            ? +buydata[0]?.price + 20
+            : +buydata[0]?.price)
+        : 0;
+
+    const exactOrderTotal = buyNowPrice + (finalPriceAll || 0);
+
+    const checkoutItemsWithQty =
+      allcartItem?.map((item) => ({
+        ...item,
+        qty: cart?.find((cartItem) => cartItem?.id === item?.id)?.qty || 1,
+      })) || [];
+
+    const payload =
+      buydata?.length > 0
+        ? {
+            ...buydata[0],
+            qty: qtyAdd,
+            checkoutItems: checkoutItemsWithQty,
+            orderTotal: exactOrderTotal,
+          }
+        : {
+            price: 0,
+            qty: 1,
+            checkoutItems: checkoutItemsWithQty,
+            orderTotal: exactOrderTotal,
+          };
+
+    localStorage.setItem("ordertotal", String(exactOrderTotal));
     dispatch(BaynowandaddtocartAction(payload));
     navigate("/payment");
     window?.scrollTo(0, 0);
@@ -295,7 +321,10 @@ useEffect(() => {
                           }
                           <button
                             type="button"
-                            disabled={dataitem?.price === "0"}
+                            disabled={
+                              dataitem?.price === "0" ||
+                              (cart?.find((item) => item?.id === dataitem?.id)?.qty || 1) >= 2
+                            }
                             onClick={() => {
                               dispatch(addtocartqtyActionPlus(dataitem?.id));
                             }}
@@ -435,8 +464,11 @@ useEffect(() => {
                       {qtyAdd}
                       <button
                         type="button"
+                        disabled={qtyAdd >= 2}
                         onClick={() => {
-                          setQtyAdd(qtyAdd + 1);
+                          if (qtyAdd < 2) {
+                            setQtyAdd(qtyAdd + 1);
+                          }
                         }}
                         className="m-0 p-0 w-[20px] h-[20px] bg-transparent border-[1px] border-[#353543] flex justify-center items-center"
                       >
