@@ -34,7 +34,7 @@ export default function PaymentPage() {
   // CHANGE YOUR REAL UPI DETAILS HERE
   // =========================================
 
-  const upiId = "Q736407417@ybl";
+  const upiId = "yespay.bizsbiz69217@yesbankltd";
   const payeeName = "Gaurang asodariya";
 
   // =========================================
